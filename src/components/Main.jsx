@@ -5,6 +5,7 @@ import { getRecipeFromMistral } from "../../ai"
 
 export default function Main() {
     const [ingredients, setIngredients] = useState([])
+    const [showRecipe, setShowRecipe] = useState(false)
     const [recipeFromAI, setRecipeFromAI] = useState()
 
     function addIngredient(formData) {
@@ -15,6 +16,7 @@ export default function Main() {
     async function getRecipe(){
         const recipeMarkdown = await getRecipeFromMistral(ingredients)
         setRecipeFromAI(recipeMarkdown)
+        setShowRecipe(prev => !prev)
     }
 
     return (
@@ -35,9 +37,9 @@ export default function Main() {
                 getRecipe={getRecipe}
             /> : null }
             
-            <ClaudeRecipe
+            {showRecipe ? <ClaudeRecipe
                 recipeFromAI={recipeFromAI}
-            />
+            /> : null}
             
         </main>
     )
